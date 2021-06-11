@@ -88,5 +88,20 @@ namespace WebApiAuth.Controllers
             return HttpStatusCode.Created;
 
         }
+
+        [HttpPut]
+        public async Task<HttpStatusCode> UpdateUsers(UserDTO User)
+        {
+            var Entities = await _authDBContext.User.FirstOrDefaultAsync(s => s.AuthId == User.AuthId);
+
+            Entities.FistName = User.FistName;
+            Entities.LastName = User.LastName;
+            Entities.Username = User.Username;
+            Entities.Password = User.Password;
+            Entities.EnrollmentDate = User.EnrollmentDate;
+
+            await _authDBContext.SaveChangesAsync();
+            return HttpStatusCode.OK;
+        }
     }
 }
